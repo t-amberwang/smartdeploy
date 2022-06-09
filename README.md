@@ -1,0 +1,2 @@
+# smartdeploy
+SmartDeploy templating
