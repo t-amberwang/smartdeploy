@@ -1,0 +1,14 @@
+name: azure-smart-deploy
+on: [push]
+jobs:
+  change-traffic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: azure login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDS }}
+      - run: az account show
+      - run: az config set extension.use_dynamic_install=yes_without_prompt #error on containerapp
+      - run: az containerapp ingress traffic set -n ${{ secrets.AZURE_APP }} -g ${{ secrets.AZURE_RG }} --revision-weight latest=10
