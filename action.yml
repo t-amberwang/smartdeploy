@@ -1,0 +1,34 @@
+name: 'Azure SmartDeploy'
+description: 'Gradually deploy a new Azure container app revision with custom tests and checks at each step'
+inputs:
+  creds:
+    description: 'Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS'
+    required: false
+  revision:
+    description: 'Name of the new revision to be deployed. default is latest revision'
+    required: false
+    default: 'latest'
+  imageID:
+    description: 'Image ID for new revision deployment"
+    required: false
+  canaryDeploy:
+    description: 'Set this value to true to enable canary deployment (). Default is linear deployment with 10% step value.'
+    required: false
+    default: false
+  stepPct:
+    description: 'Step percentage for linear deployment or canary percentage for canary deployment. Default 10%.'
+    required: false
+    default: 10
+  intervalTime:
+    description: 'Time in minutes to run tests before moving onto the next step of deployment. Default 5 minutes.'
+    required: false
+    default: 5
+  monitoring:
+    description: 'List of alarms that should be monitored.'
+     required: false
+  pretraffic-hooks:
+    description: 'Validations to be run before traffic shifting.'
+    required: false
+  posttraffic-hooks:
+    description: 'Validations to be run after traffic shifting.'
+  
