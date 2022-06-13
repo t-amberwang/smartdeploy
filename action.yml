@@ -23,6 +23,10 @@ inputs:
     description: 'Time in minutes to run tests before moving onto the next step of deployment. Default 5 minutes.'
     required: false
     default: 5
+  finalPct:
+    description: 'Final percentage of traffic to be routed to the new revision. Default is 100% of traffic.'
+    required: false
+    default: 100
   monitoring:
     description: 'List of alarms that should be monitored.'
      required: false
@@ -31,4 +35,5 @@ inputs:
     required: false
   posttraffic-hooks:
     description: 'Validations to be run after traffic shifting.'
+    required: false
   
