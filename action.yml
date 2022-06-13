@@ -12,7 +12,7 @@ inputs:
     description: 'Image ID for new revision deployment"
     required: false
   canaryDeploy:
-    description: 'Set this value to true to enable canary deployment (). Default is linear deployment with 10% step value.'
+    description: 'Set this value to true to enable canary deployment (pause at a percentage, then divert the rest). Default is linear deployment with 10% step value.'
     required: false
     default: false
   stepPct:
@@ -20,9 +20,9 @@ inputs:
     required: false
     default: 10
   intervalTime:
-    description: 'Time in minutes to run tests before moving onto the next step of deployment. Default 5 minutes.'
+    description: 'Time in minutes to run tests before moving onto the next step of deployment. Default 15 minutes.'
     required: false
-    default: 5
+    default: 15
   finalPct:
     description: 'Final percentage of traffic to be routed to the new revision. Default is 100% of traffic.'
     required: false
