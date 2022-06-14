@@ -5,14 +5,13 @@ inputs:
   appName:
     description: 'Container app name.'
     required: true
+    default: ""
   resourceGroup:
     description: 'Name of resource group.'
     required: true
-  creds:
-    description: 'Paste output of `az ad sp create-for-rbac` as a secret variable and use with {{ secrets.AZURE_CREDENTIALS }}'
-    required: false
+    default: ""
   imageID:
-    description: 'Image ID for new revision deployment'
+    description: 'Container image ID for new revision deployment.'
     required: false
   canaryDeploy:
     description: 'Set this value to true to enable canary deployment (pause at a percentage, then divert the rest). Default is linear deployment with 10% step value.'
@@ -22,8 +21,8 @@ inputs:
     description: 'Step percentage for linear deployment or canary percentage for canary deployment. Default 10%.'
     required: false
     default: 10
-  intervalTime:
-    description: 'Time in minutes to run tests before moving onto the next step of deployment. Default 15 minutes.'
+  stepTime:
+    description: 'Time in minutes to wait before moving onto the next step of deployment. Default 15 minutes.'
     required: false
     default: 15
   finalPct:
@@ -33,6 +32,10 @@ inputs:
   monitoring:
     description: 'List of alarms that should be monitored.'
     required: false
+  monitorTime:
+    description: 'Time in minutes between test runs. Default 1 minute.'
+    required: false
+    default: 1
   pretraffic-hooks:
     description: 'Validations to be run before traffic shifting.'
     required: false
