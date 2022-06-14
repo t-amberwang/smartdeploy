@@ -7,7 +7,7 @@ jobs:
       - name: azure login
         uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - run: az config set extension.use_dynamic_install=yes_without_prompt
       - name: test action
         uses: ./
