@@ -4,6 +4,8 @@ jobs:
   run-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
       - name: azure login
         uses: Azure/login@v1
         with:
