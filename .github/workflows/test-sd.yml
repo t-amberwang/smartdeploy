@@ -14,5 +14,6 @@ jobs:
       - name: test action
         uses: ./
         with:
-          stepPct: 20
-      # - run: az containerapp ingress traffic set -n ${{ secrets.AZURE_APP }} -g ${{ secrets.AZURE_RG }} --revision-weight latest=10
+          appName: amber-test-container
+          resourceGroup: amber-test-container
+          
