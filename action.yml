@@ -3,8 +3,8 @@ author: Amber Wang
 description: 'Gradually deploy a new Azure container app revision with custom tests and checks at each step'
 inputs:
   creds:
-    description: 'Paste output of `az ad sp create-for-rbac` as a secret variable and use with ${{ secrets.AZURE_CREDENTIALS }}'
-    required: true
+    description: 'Paste output of `az ad sp create-for-rbac` as a secret variable and use with {{ secrets.AZURE_CREDENTIALS }}'
+    required: false
   revision:
     description: 'Name of the new revision to be deployed. default is latest revision'
     required: false
@@ -30,7 +30,7 @@ inputs:
     default: 100
   monitoring:
     description: 'List of alarms that should be monitored.'
-     required: false
+    required: false
   pretraffic-hooks:
     description: 'Validations to be run before traffic shifting.'
     required: false
