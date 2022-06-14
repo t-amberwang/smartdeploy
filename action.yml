@@ -37,6 +37,9 @@ inputs:
   posttraffic-hooks:
     description: 'Validations to be run after traffic shifting.'
     required: false
+branding:
+  icon: 'box'
+  color: 'blue'
 runs:
   using: 'node16'
   main: 'lib/main.js'
