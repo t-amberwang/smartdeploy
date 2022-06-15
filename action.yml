@@ -32,7 +32,7 @@ inputs:
   monitoring:
     description: 'List of alarms that should be monitored.'
     required: false
-  monitorTime:
+  monitorInterval:
     description: 'Time in minutes between test runs. Default 1 minute.'
     required: false
     default: 1
