@@ -16,4 +16,6 @@ jobs:
         with:
           appName: amber-test-container
           resourceGroup: amber-test-container
+          imageID: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
+          revisionSuffix: test1
           
