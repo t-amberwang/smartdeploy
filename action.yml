@@ -13,6 +13,9 @@ inputs:
   imageID:
     description: 'Container image ID for new revision deployment.'
     required: false
+  revisionSuffix:
+    description: 'Revision suffix for new revision.'
+    required: false
   canaryDeploy:
     description: 'Set this value to true to enable canary deployment (pause at a percentage, then divert the rest). Default is linear deployment with 10% step value.'
     required: false
