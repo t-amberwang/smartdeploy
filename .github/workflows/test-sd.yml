@@ -19,4 +19,6 @@ jobs:
           resourceGroup: amber-test-container
           imageID: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
           revisionSuffix: test1
-          
+          stepPct: 30
+          stepTime: 1
+          monitorInterval: 0.5
