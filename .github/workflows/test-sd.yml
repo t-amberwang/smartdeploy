@@ -3,6 +3,7 @@ on: [push]
 jobs:
   run-test:
     runs-on: ubuntu-latest
+    if: ${{ !(contains(github.event.head_commit.message, 'donotrun')) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.2
@@ -11,6 +12,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - run: az config set extension.use_dynamic_install=yes_without_prompt
-      - name: test action
+      - name: Smart Deploy
         uses: ./
-      # - run: az containerapp ingress traffic set -n ${{ secrets.AZURE_APP }} -g ${{ secrets.AZURE_RG }} --revision-weight latest=10
+        with:
+          appName: amber-test-container
+          resourceGroup: amber-test-container
+          imageID: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
+          revisionSuffix: test1
+          stepPct: 30
+          stepTime: 1
+          monitorInterval: 0.5
+      - name: direct traffic away
+        run: az containerapp ingress traffic set -n amber-test-container -g amber-test-container --revision-weight amber-test-container--ha9tfua=100
+      - name: deactivate
+        run: az containerapp revision deactivate --revision amber-test-container--test1 --resource-group amber-test-container
