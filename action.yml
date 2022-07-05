@@ -27,7 +27,7 @@ inputs:
     required: false
     default: 10
   stepTime:
-    description: 'Time in minutes to wait before moving onto the next step of deployment. Default 15 minutes.'
+    description: 'Time in minutes to wait before moving onto the next step of deployment. Recommended at least 5 minutes because of log lag. Default 15 minutes.'
     required: false
     default: 15
   finalPct:
