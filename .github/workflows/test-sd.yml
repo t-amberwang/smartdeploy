@@ -17,7 +17,7 @@ jobs:
           appName: amber-test-container
           resourceGroup: amber-test-container
           imageID: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-          logAnalytics: amber-test-app-logs
+          logAnalyticsWorkspace: amber-test-app-logs
           revisionSuffix: test6
           stepPct: 20
           stepTime: 5

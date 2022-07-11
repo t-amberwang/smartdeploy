@@ -34,7 +34,7 @@ inputs:
     description: 'Final percentage of traffic to be routed to the new revision. Default is 100% of traffic.'
     required: false
     default: 100
-  monitoring:
+  monitors:
     description: 'List of API endpoints that should be monitored.'
     required: false
     default: ""
