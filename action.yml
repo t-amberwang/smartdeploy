@@ -5,17 +5,19 @@ inputs:
   appName:
     description: 'Container app name.'
     required: true
-    default: ""
   resourceGroup:
     description: 'Name of resource group.'
     required: true
-    default: ""
   imageID:
     description: 'Container image ID for new revision deployment.'
     required: true
   revisionSuffix:
     description: 'Revision suffix for new revision.'
     required: true
+  logAnalyticsWorkspace:
+    description: 'Name of log analytics workspace associated with the container app. Provide for Log Analytics monitoring (recommended).'
+    required: false
+    default: ""
   canaryDeploy:
     description: 'Set this value to true to enable canary deployment (pause at a percentage, then divert the rest). Default is linear deployment with 10% step value.'
     required: false
@@ -25,26 +27,33 @@ inputs:
     required: false
     default: 10
   stepTime:
-    description: 'Time in minutes to wait before moving onto the next step of deployment. Default 15 minutes.'
+    description: 'Time in minutes to wait before moving onto the next step of deployment. Recommended at least 5 minutes because of log lag. Default 15 minutes.'
     required: false
     default: 15
   finalPct:
     description: 'Final percentage of traffic to be routed to the new revision. Default is 100% of traffic.'
     required: false
     default: 100
-  monitoring:
-    description: 'List of alarms that should be monitored.'
+  monitors:
+    description: 'List of API endpoints that should be monitored.'
     required: false
+    default: ""
   monitorInterval:
     description: 'Time in minutes between test runs. Default 1 minute.'
     required: false
     default: 1
+  errorThreshold:
+    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0% - any 500 response .'
+    required: false
+    default: 0
   pretraffic-hooks:
     description: 'Validations to be run before traffic shifting.'
     required: false
+    default: ""
   posttraffic-hooks:
     description: 'Validations to be run after traffic shifting.'
     required: false
+    default: ""
 branding:
   icon: 'box'
   color: 'blue'
