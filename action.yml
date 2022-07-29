@@ -19,7 +19,7 @@ inputs:
     required: false
     default: ""
   canaryDeploy:
-    description: 'Set this value to true to enable canary deployment (pause at a percentage, then divert the rest). Default is linear deployment with 10% step value.'
+    description: 'Set this value to true to switch to canary deployment (monitor at StepPct, then jump to 100%). Default is linear deployment with 10% step value.'
     required: false
     default: false
   stepPct:
@@ -43,17 +43,9 @@ inputs:
     required: false
     default: 1
   errorThreshold:
-    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0% - any 500 response .'
+    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0% - roll back on any 500 response .'
     required: false
     default: 0
-  pretraffic-hooks:
-    description: 'Validations to be run before traffic shifting.'
-    required: false
-    default: ""
-  posttraffic-hooks:
-    description: 'Validations to be run after traffic shifting.'
-    required: false
-    default: ""
 branding:
   icon: 'box'
   color: 'blue'
