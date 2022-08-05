@@ -25,10 +25,7 @@ const execute = function (command) {
   
   // get date and time for queries
   function getDateTime() {
-    var today = new Date();
-    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    return date + 'T' + time;
+    return new Date().toISOString()
   }
 
   exports.getDateTime = getDateTime
