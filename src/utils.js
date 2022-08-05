@@ -1,3 +1,4 @@
+const exec = require('child_process').exec;
 
 // utility function for async exec command
 const execute = function (command) {
@@ -30,4 +31,6 @@ const execute = function (command) {
     return date + 'T' + time;
   }
 
-  export {execute, sleep, getDateTime}
+  exports.getDateTime = getDateTime
+  exports.sleep = sleep
+  exports.execute = execute
