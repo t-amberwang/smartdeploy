@@ -4,6 +4,7 @@ const exec = require('child_process').exec;
 const github = require('@actions/github');
 const assert = require('assert');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+import { getDateTime, sleep, execute } from './utils.js'
 
 // TEST CODE
 function getTime() {
@@ -21,7 +22,7 @@ function setInputs() {
   setInput("appName", "error-test")
   setInput("resourceGroup", "amber-test-container")
   // setInput("imageID", "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest")
-  setInput("imageID", "ambertest.azurecr.io/testapp:errors")
+  setInput("imageID", "ambertest.azurecr.io/testapp:f1b757b6c23656d995d010fdbc5dd3936f96ccb9")
   setInput("logAnalyticsWorkspace", "amber-test-app-logs")
   setInput("revisionSuffix", getTime())
   setInput("stepPct", "50")
@@ -53,36 +54,36 @@ const TIME_CONVERSION = 60000 // conversion factor from minutes to milliseconds
 let RESOURCE = ""
 let prevTrafficSettings = ""
 
-// utility function for async exec command
-const execute = function (command) {
-  return new Promise((resolve, reject) => {
-    console.log(`Running command ${command} at ${getDateTime()}`)
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        if (error.signal == 'SIGTERM') {
-          resolve('Process was killed');
-        } else {
-          reject(error);
-        }
-      } else {
-        core.debug(stdout)
-        core.debug(stderr)
-        resolve(stdout);
-      }
-    });
-  })
-}
+// // utility function for async exec command
+// const execute = function (command) {
+//   return new Promise((resolve, reject) => {
+//     console.log(`Running command ${command} at ${getDateTime()}`)
+//     exec(command, (error, stdout, stderr) => {
+//       if (error) {
+//         if (error.signal == 'SIGTERM') {
+//           resolve('Process was killed');
+//         } else {
+//           reject(error);
+//         }
+//       } else {
+//         core.debug(stdout)
+//         core.debug(stderr)
+//         resolve(stdout);
+//       }
+//     });
+//   })
+// }
 
-// sleep callback with delay in ms
-const sleep = (delay) => new Promise(r => setTimeout(r, delay));
+// // sleep callback with delay in ms
+// const sleep = (delay) => new Promise(r => setTimeout(r, delay));
 
-// get date and time for queries
-function getDateTime() {
-  var today = new Date();
-  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  return date + 'T' + time;
-}
+// // get date and time for queries
+// function getDateTime() {
+//   var today = new Date();
+//   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+//   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+//   return date + 'T' + time;
+// }
 
 // monitor the new revision for the specified amount of time
 async function monitor() {
@@ -181,9 +182,13 @@ async function main() {
         prevTrafficSettings += (traffic[i].revisionName ? traffic[i].revisionName : "latest") + "=" + traffic[i].weight + " "
       }
     }
-    
+
+    let revisionMode = RESOURCE.properties.configuration.activeRevisionsMode
     // ensure multiple revisions are allowed
-    await execute(`az containerapp revision set-mode -n ${APP} -g ${RG} --mode multiple`)
+    if (revisionMode != "Multiple") {
+      await execute(`az containerapp revision set-mode -n ${APP} -g ${RG} --mode multiple`)
+    }
+    
     // create a new revision
     let res = await execute(`az containerapp update -n ${APP} -g ${RG} --revision-suffix ${REV_SUFFIX} --image ${IMAGE}`)
     // test provisioningState is succeeded
@@ -229,6 +234,11 @@ async function main() {
     await monitor()
     console.log("Successfully deployed!")
     console.log(await execute(`az containerapp show -n ${APP} -g ${RG}`))
+
+    // revert to starting revision mode
+    if (revisionMode != "Multiple") {
+      await execute(`az containerapp revision set-mode -n ${APP} -g ${RG} --mode ${revisionMode}`)
+    }
   } catch (error) {
     core.debug("Deployment failed with error: " + error);
     core.setFailed(error.message);
