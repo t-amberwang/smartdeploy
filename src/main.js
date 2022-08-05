@@ -20,7 +20,7 @@ const CANARY = core.getBooleanInput('canaryDeploy') // whether to use canary dep
 const STEP_PCT = parseInt(core.getInput('stepPct')) // step pct of traffic going to new revision
 const STEP_TIME = parseFloat(core.getInput('stepTime')) // step time between traffic shifts
 const FINAL_PCT = parseInt(core.getInput('finalPct')) // final pct of traffic going to new revision
-const MONITORS = core.getInput('monitors').replace(/ +/g, '').split(/,|;|\n/) // user api endpoints to hit
+const ENDPOINTS = core.getInput('apiEndpointsToTest').replace(/ +/g, '').split(/,|;|\n/) // user api endpoints to hit
 const MONITOR_INTERVAL = parseFloat(core.getInput('monitorInterval')) // time between monitoring
 const ERROR_THRESHOLD = parseFloat(core.getInput('errorThreshold')) // max error tolerance on http pings
 const TIME_CONVERSION = 60000 // conversion factor from minutes to milliseconds
@@ -76,10 +76,10 @@ async function monitor() {
 // function to run tests
 async function runTests(startTime) {
   // run user provided tests by pinging apis
-  if (MONITORS) {
-    for (const test of MONITORS) {
+  if (ENDPOINTS) {
+    for (const test of ENDPOINTS) {
       if (test) {
-        core.debug("testing user provided monitors")
+        core.debug("testing user provided endpoints")
         try {
           let response = await fetch(test)
           if (response.ok) {
