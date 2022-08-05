@@ -6,7 +6,7 @@ const { execute, sleep, getDateTime } = require('./utils.js');
 
 
 // // TEST CODE
-const setInputs = require('./test.js');
+const setInputs = require('./testLocally.js');
 setInputs() // for local runs only to set environment variables
 // // END TEST CODE
 
