@@ -43,7 +43,7 @@ inputs:
     required: false
     default: 1
   errorThreshold:
-    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0% - any 500 response .'
+    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0.5%.'
     required: false
     default: 0
   pretraffic-hooks:
