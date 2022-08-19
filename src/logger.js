@@ -14,6 +14,7 @@ function debugInfo(msg) {
 function logError(error) {
     console.log(error)
     core.debug(error)
+    throw new Error(error)
 }
 
 exports.logInfo = logInfo

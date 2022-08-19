@@ -38,12 +38,10 @@ async function runTests(startTime, inputParameters) {
             }
           } else {
             logError(`User provided monitor test ${test} failed!`)
-            throw new Error()
           }
         } catch(error) {
           debugInfo(`Error in fetching user provided monitor ${test}`)
           logError(error)
-          throw new Error()
         }
       }
     }
@@ -57,7 +55,7 @@ async function runTests(startTime, inputParameters) {
     let logResults = await execute(`az monitor log-analytics query --workspace ${clientID[1]} --analytics-query "ContainerAppSystemLogs_CL | where RevisionName_s == '${inputParameters.APP}--${inputParameters.REV_SUFFIX}' | project Log_s, TimeGenerated" --out table`)
     debugInfo(logResults)
     if (logResults.match(/Error/)) {
-      throw new Error("Error found in log analytics - container crashed")
+      logError("Error found in log analytics - container crashed")
     }
     debugInfo("no errors found in log analytics")
   }
@@ -80,7 +78,7 @@ async function runTests(startTime, inputParameters) {
   }
   logInfo(`2xx: ${status.get(2)}, 3xx: ${status.get(3)}, 4xx: ${status.get(4)}, 5xx: ${status.get(5)}`)
   if (status.get(5) / totalReqs > inputParameters.ERROR_THRESHOLD) {
-    throw new Error(`Error threshold of ${inputParameters.ERROR_THRESHOLD}% exceeded with 5xx count at ${status.get(5)} out of ${totalReqs} total requests`)
+    logError(`Error threshold of ${inputParameters.ERROR_THRESHOLD}% exceeded with 5xx count at ${status.get(5)} out of ${totalReqs} total requests`)
   }
 }
 
@@ -107,7 +105,7 @@ async function main() {
     let res = await execute(`az containerapp update -n ${inputParameters.APP} -g ${inputParameters.RG} --revision-suffix ${inputParameters.REV_SUFFIX} --image ${inputParameters.IMAGE}`)
     // test provisioningState is succeeded
     if (!res.match(/"provisioningState": "Succeeded"/)) {
-      throw new Error('Update of containerapp failed - provisioningState not a success')
+      logError('Update of containerapp failed - provisioningState not a success')
     }
     
     logInfo("Starting deployment of latest revision " + inputParameters.REV_SUFFIX)
@@ -163,9 +161,7 @@ async function main() {
       logError("Rollback failure with error " + error)
       logInfo("Current containerapp json:")
       logInfo(await execute(`az containerapp show -n ${inputParameters.APP} -g ${inputParameters.RG}`))
-      throw new Error()
     }
-    throw new Error()
   }
 }
 
