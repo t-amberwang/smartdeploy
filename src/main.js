@@ -5,10 +5,19 @@ const { logInfo, debugInfo, logError } = require('./logger.js');
 const { InputParameters } = require('./configLoader')
 const { monitor } = require('./monitor')
 
+// TEST CODE
+const {setInputs} = require('./testLocally')
+setInputs()
+//
 
 async function rollBack(inputParameters) {
   logInfo("Executing rollback to initial revision settings")
   await execute(`az containerapp ingress traffic set -n ${inputParameters.APP} -g ${inputParameters.RG} --revision-weight ${inputParameters.getTrafficSettings()}`)
+  let revisionMode = inputParameters.RESOURCE.properties.configuration.activeRevisionsMode
+  // revert to starting revision mode
+  if (revisionMode != "Multiple") {
+    await execute(`az containerapp revision set-mode -n ${inputParameters.APP} -g ${inputParameters.RG} --mode ${revisionMode}`)
+  }
 }
 
 async function main() {
