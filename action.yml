@@ -19,7 +19,7 @@ inputs:
     required: false
     default: ""
   canaryDeploy:
-    description: 'Set this value to true to enable canary deployment (pause at a percentage, then divert the rest). Default is linear deployment with 10% step value.'
+    description: 'Set this value to true to switch to canary deployment (monitor at StepPct, then jump to 100%). Default is linear deployment with 10% step value.'
     required: false
     default: false
   stepPct:
@@ -34,7 +34,7 @@ inputs:
     description: 'Final percentage of traffic to be routed to the new revision. Default is 100% of traffic.'
     required: false
     default: 100
-  monitors:
+  apiEndpointsToTest:
     description: 'List of API endpoints that should be monitored.'
     required: false
     default: ""
@@ -43,20 +43,12 @@ inputs:
     required: false
     default: 1
   errorThreshold:
-    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0% - any 500 response .'
+    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0.5%.'
     required: false
-    default: 0
-  pretraffic-hooks:
-    description: 'Validations to be run before traffic shifting.'
-    required: false
-    default: ""
-  posttraffic-hooks:
-    description: 'Validations to be run after traffic shifting.'
-    required: false
-    default: ""
+    default: 0.5
 branding:
   icon: 'box'
   color: 'blue'
 runs:
   using: 'node16'
-  main: 'lib/main.js'
+  main: 'src/main.js'
