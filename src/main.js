@@ -5,11 +5,6 @@ const { execute, sleep, getDateTime } = require('./utils.js');
 const { logInfo, debugInfo, logError } = require('./logger.js');
 const { InputParameters } = require('./configLoader')
 
-// // TEST CODE
-const {setInputs} = require('./testLocally.js');
-setInputs() // for local runs only to set environment variables
-// // END TEST CODE
-
 // monitor the new revision for the specified amount of time
 async function monitor(inputParameters) {
   let guard = true
