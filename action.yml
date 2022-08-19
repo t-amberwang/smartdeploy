@@ -51,4 +51,4 @@ branding:
   color: 'blue'
 runs:
   using: 'node16'
-  main: 'lib/main.js'
+  main: 'src/main.js'
