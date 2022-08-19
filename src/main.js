@@ -6,8 +6,8 @@ const { logInfo, debugInfo, logError } = require('./logger.js');
 const { InputParameters } = require('./configLoader')
 
 // // TEST CODE
-const {setInputs} = require('./testLocally.js');
-setInputs() // for local runs only to set environment variables
+// const {setInputs} = require('./testLocally.js');
+// setInputs() // for local runs only to set environment variables
 // // END TEST CODE
 
 
