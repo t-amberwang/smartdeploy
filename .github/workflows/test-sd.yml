@@ -18,7 +18,7 @@ jobs:
           resourceGroup: amber-test-container
           imageID: ambertest.azurecr.io/testapp:3f8ddeea28c4d6bc7ad4e643ea9f6fb7eb15b714
           logAnalyticsWorkspace: amber-test-app-logs
-          revisionSuffix: $ {{ github.sha }}
+          revisionSuffix: ${{ github.sha }}
           stepPct: 20
           stepTime: 5
           monitorInterval: 1
