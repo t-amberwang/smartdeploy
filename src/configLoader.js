@@ -21,6 +21,7 @@ class InputParameters {
         TIME_CONVERSION = 60000 // conversion factor from minutes to milliseconds
         // Save current containerapp settings in case of rollback
         RESOURCE = ""
+        TRAFFIC_SETTINGS = ""
 
         constructor () {
             // input validation checks
@@ -39,14 +40,7 @@ class InputParameters {
 
         async init() {
             this.RESOURCE = JSON.parse(await execute(`az containerapp show -n ${this.APP} -g ${this.RG}`))
-        }
-
-
-        getTrafficSettings() {
-            if (this.RESOURCE == "") {
-                this.init()
-            }
-
+            
             let traffic = this.RESOURCE.properties.configuration.ingress.traffic
             prevTrafficSettings = ""
             for (let i = 0; i < traffic.length; i++) {
@@ -56,8 +50,15 @@ class InputParameters {
                 prevTrafficSettings += (currRevision.revisionName ? currRevision.revisionName : "latest") + "=" + currRevision.weight + " "
               }
             }
+            this.TRAFFIC_SETTINGS = prevTrafficSettings
+        }
 
-            return prevTrafficSettings
+        getTrafficSettings() {
+            if (this.RESOURCE == "") {
+                this.init()
+            }
+
+            return this.TRAFFIC_SETTINGS
         }
 }
 

@@ -6,8 +6,8 @@ const { logInfo, debugInfo, logError } = require('./logger.js');
 const { InputParameters } = require('./configLoader')
 
 // // TEST CODE
-// const {setInputs} = require('./testLocally.js');
-// setInputs() // for local runs only to set environment variables
+const {setInputs} = require('./testLocally.js');
+setInputs() // for local runs only to set environment variables
 // // END TEST CODE
 
 // monitor the new revision for the specified amount of time
@@ -102,9 +102,6 @@ async function main() {
   await inputParameters.init()
   console.log(inputParameters.RESOURCE)
   try {
-
-    
-
     let revisionMode = inputParameters.RESOURCE.properties.configuration.activeRevisionsMode
     // ensure multiple revisions are allowed
     if (revisionMode != "Multiple") {
@@ -171,6 +168,7 @@ async function main() {
       logError("Rollback failure with error " + error)
       logInfo("Current containerapp json:")
       logInfo(await execute(`az containerapp show -n ${inputParameters.APP} -g ${inputParameters.RG}`))
+      throw new Error()
     }
   }
 }
