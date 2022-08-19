@@ -42,7 +42,7 @@ class InputParameters {
             this.RESOURCE = JSON.parse(await execute(`az containerapp show -n ${this.APP} -g ${this.RG}`))
             
             let traffic = this.RESOURCE.properties.configuration.ingress.traffic
-            prevTrafficSettings = ""
+            let prevTrafficSettings = ""
             for (let i = 0; i < traffic.length; i++) {
               let currRevision = traffic[i]
                 // if traffic setting exists for revision, append it to the string - note no name means latest revision

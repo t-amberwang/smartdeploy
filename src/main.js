@@ -140,7 +140,7 @@ async function main() {
         // set traffic to new revision
         await execute(`az containerapp ingress traffic set -n ${inputParameters.APP} -g ${inputParameters.RG} --revision-weight ${inputParameters.APP}--${inputParameters.REV_SUFFIX}=${currPct}`)
         
-        logInfo(`After ${incr} increment, running at ${currPct * 100}% deployment`)
+        logInfo(`After ${incr} increment, running at ${currPct}% deployment`)
         
         await monitor(inputParameters)
       }
