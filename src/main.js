@@ -170,6 +170,7 @@ async function main() {
       logInfo(await execute(`az containerapp show -n ${inputParameters.APP} -g ${inputParameters.RG}`))
       throw new Error()
     }
+    throw new Error()
   }
 }
 
