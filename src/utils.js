@@ -1,9 +1,10 @@
 const exec = require('child_process').exec;
+const { logInfo, debugInfo, logError } = require('./logger.js');
 
 // utility function for async exec command
 const execute = function (command) {
     return new Promise((resolve, reject) => {
-      console.log(`Running command ${command} at ${getDateTime()}`)
+      logInfo(`Running shell command ${command}`)
       exec(command, (error, stdout, stderr) => {
         if (error) {
           if (error.signal == 'SIGTERM') {
@@ -12,8 +13,8 @@ const execute = function (command) {
             reject(error);
           }
         } else {
-          core.debug(stdout)
-          core.debug(stderr)
+          debugInfo(`stdout: \n ${stdout}`)
+          debugInfo(`stderr: \n ${stderr}`)
           resolve(stdout);
         }
       });
