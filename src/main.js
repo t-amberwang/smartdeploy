@@ -96,13 +96,15 @@ async function rollBack(inputParameters) {
 }
 
 async function main() {
+  // install extensions without prompt (this code uses containerapp and log-analytics)
+  await execute('az config set extension.use_dynamic_install=yes_without_prompt')
+  
   const inputParameters = new InputParameters()
   await inputParameters.init()
   console.log(inputParameters.RESOURCE)
   try {
 
-    // install extensions without prompt (this code uses containerapp and log-analytics)
-    await execute('az config set extension.use_dynamic_install=yes_without_prompt')
+    
 
     let revisionMode = inputParameters.RESOURCE.properties.configuration.activeRevisionsMode
     // ensure multiple revisions are allowed
