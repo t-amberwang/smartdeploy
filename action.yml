@@ -34,7 +34,7 @@ inputs:
     description: 'Final percentage of traffic to be routed to the new revision. Default is 100% of traffic.'
     required: false
     default: 100
-  monitors:
+  apiEndpointsToTest:
     description: 'List of API endpoints that should be monitored.'
     required: false
     default: ""
@@ -43,9 +43,9 @@ inputs:
     required: false
     default: 1
   errorThreshold:
-    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0% - roll back on any 500 response .'
+    description: 'Percentage of 500 responses (server error) that are acceptable for the new revision, ex. a value of 5 would require 95% request success to continue with deployment. Default is 0.5%.'
     required: false
-    default: 0
+    default: 0.5
 branding:
   icon: 'box'
   color: 'blue'

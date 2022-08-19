@@ -18,11 +18,10 @@ jobs:
           resourceGroup: amber-test-container
           imageID: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
           logAnalyticsWorkspace: amber-test-app-logs
-          revisionSuffix: test8
+          revisionSuffix: test10
           stepPct: 20
           stepTime: 5
           monitorInterval: 1
-          monitors: https://www.google.com, https://www.bing.com
       # - name: direct traffic away
       #   run: az containerapp ingress traffic set -n amber-test-container -g amber-test-container --revision-weight amber-test-container--ha9tfua=100
       # - name: deactivate
