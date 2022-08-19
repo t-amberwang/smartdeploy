@@ -10,7 +10,6 @@ const { InputParameters } = require('./configLoader')
 // setInputs() // for local runs only to set environment variables
 // // END TEST CODE
 
-
 // monitor the new revision for the specified amount of time
 async function monitor(inputParameters) {
   let guard = true
@@ -98,7 +97,7 @@ async function rollBack(inputParameters) {
 async function main() {
   // install extensions without prompt (this code uses containerapp and log-analytics)
   await execute('az config set extension.use_dynamic_install=yes_without_prompt')
-  
+
   const inputParameters = new InputParameters()
   await inputParameters.init()
   console.log(inputParameters.RESOURCE)
@@ -144,7 +143,7 @@ async function main() {
         // set traffic to new revision
         await execute(`az containerapp ingress traffic set -n ${inputParameters.APP} -g ${inputParameters.RG} --revision-weight ${inputParameters.APP}--${inputParameters.REV_SUFFIX}=${currPct}`)
         
-        logInfo(`After ${incr} increment, running at ${currPct} deployment`)
+        logInfo(`After ${incr} increment, running at ${currPct * 100}% deployment`)
         
         await monitor(inputParameters)
       }

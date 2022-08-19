@@ -14,11 +14,11 @@ jobs:
       - name: Smart Deploy
         uses: ./
         with:
-          appName: amber-test-container
+          appName: error-test
           resourceGroup: amber-test-container
-          imageID: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
+          imageID: ambertest.azurecr.io/testapp:3f8ddeea28c4d6bc7ad4e643ea9f6fb7eb15b714
           logAnalyticsWorkspace: amber-test-app-logs
-          revisionSuffix: test11
+          revisionSuffix: $ {{ github.sha }}
           stepPct: 20
           stepTime: 5
           monitorInterval: 1
