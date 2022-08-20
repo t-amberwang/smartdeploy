@@ -6,7 +6,19 @@ The four required values are:
 - appName: the name of the container application to deploy to
 - resourceGroup: the name of the resource group the application is located under
 - imageID: the image ID of the new revision that is being pushed
-- revisionSuffix: the 
+- revisionSuffix: the unique suffix of the new revision being created
+
+Customizable values are:
+- logAnalyticsWorkspace: the name of the log analytics workspace associated with the container application and an indication to monitor log analytics for a particular application (default none)
+- canaryDeploy: opt into using the canary method of deployment, which is a two-step process to increase traffic to the stepPct and monitor before increasing immediately up to finalPct traffic, as opposed to a linear method of traffic increase (default false)
+- stepPct: the amount of traffic increase that should be added to the new revision at each step (default 10%)
+- stepTime: the time to pause at each step before increasing traffic again. It is recommended that this be over 5 minutes because of metric latency (default 15 minutes)
+- finalPct: the final percentage of traffic to divert to the new revision (default 100%)
+- apiEndpointstoTest: user-provided endpoints that the Action will ping--upon a 2xx response the traffic shaping will continue, and upon a 5xx response the shaping will end and rollback will occur (default none)
+- monitorInterval: time interval between monitoring at each step (default 1 minute)
+- errorThreshold: threshold of natural 5xx responses out of all responses to receive before rolling back (default 0.5%)
+
+The Action will automatically set revision mode to Multiple while it is running, and will revert the mode to Single if that was the initial setting. If an error occurs, previous traffic settings will be restored and traffic will be diverted back to the revisions that were handling requests prior to creation of the new revision.
 
 # Continuous Development
 Though the Action could be run manually by creating a workflow and changing the imageID and revisionSuffix on each run, the purpose and intent of the project is to utilize a CI/CD method of deployment with application code stored in GitHub. This can be accomplished in two ways: through an automatically generated template in the Azure Portal (recommended) or using a custom workflow.
